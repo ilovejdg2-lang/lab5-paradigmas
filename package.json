@@ -1,11 +1,26 @@
 {
   "dependencies": {
-    "express": "*",
-    "mocha": "^10.2.0",
-    "socket.io": "*"
+    "express": "4.22.3",
+    "mocha": "^12.0.3",
+    "socket.io": "4.8.4"
   },
   "scripts": {
     "start": "node server.js",
-    "test": "mocha"
+    "test": "mocha",
+    "test:integration": "jest",
+    "test:e2e": "playwright test",
+    "security": "snyk test"
+  },
+  "overrides": {
+    "proxy-addr": "2.0.8",
+    "socket.io-parser": "4.2.7",
+    "ws": "8.22.0",
+    "picomatch": "2.3.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "jest": "^30.5.2",
+    "snyk": "^1.1308.2",
+    "socket.io-client": "4.8.4"
   }
 }
