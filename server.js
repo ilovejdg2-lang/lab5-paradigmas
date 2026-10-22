@@ -24,6 +24,18 @@ io.on('connection', function(socket){
   });
 });
 
-http.listen(port, function(){
-  console.log('listening on *:' + port);
-});
+function start(listenPort) {
+  return new Promise(function (resolve) {
+    http.listen(listenPort, function () {
+      resolve(http);
+    });
+  });
+}
+
+if (require.main === module) {
+  start(port).then(function () {
+    console.log('listening on *:' + port);
+  });
+}
+
+module.exports = { app: app, server: http, io: io, start: start };
