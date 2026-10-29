@@ -2,7 +2,19 @@
 
 ## TL;DR
 
-El comportamiento lo definen las pruebas y, cuando hay un cambio planificado, OpenSpec. Si una prueba falla, se ajusta el código al comportamiento que la prueba fija. Si el usuario cambia ese comportamiento, se actualizan las pruebas en el mismo cambio. Un mensaje del chat solo puede volverse imagen o reproductor por una URL completa y permitida; el resto se escapa. Después de tocar la validación, la pantalla o las dependencias se corren `npm test`, `npm run test:integration` y `npm run test:e2e`. No se hace commit si no lo piden.
+El comportamiento lo definen las pruebas y, cuando hay un cambio planificado, OpenSpec. Si una prueba falla, se ajusta el código al comportamiento que la prueba fija. Si el usuario cambia ese comportamiento, se actualizan las pruebas en el mismo cambio. Un mensaje del chat solo puede volverse imagen o reproductor por una URL completa y permitida; el resto se escapa. El chat exige access token Auth0 (JWT) en Socket.IO. Después de tocar la validación, la pantalla, auth o las dependencias se corren `npm test`, `npm run test:integration` y `npm run test:e2e`. No se hace commit si no lo piden.
+
+## Memoria del Laboratorio 8 (fuera de este repo)
+
+Este clon vive en `Repos/lab5-paradigmas/` del workspace oficial
+`my-team-workspace/my-team-workspace/`. La memoria persistente **no** está
+dentro de este repositorio: está en `../../brain/` (es decir,
+`my-team-workspace/my-team-workspace/brain/`).
+
+Al iniciar una sesión abierta solo sobre este repo, lee primero
+`../../brain/daily-log/status.md` y el diario del día si existe.
+
+**No se realizará el paso 3 del Laboratorio 8: Preparar y utilizar el harness. Por decisión de alcance, no se instalará ni utilizará rsc-harness.**
 
 ## Contrato que no se rompe
 
