@@ -1,5 +1,6 @@
 var { test, expect } = require('@playwright/test');
 var RETRASO_MS = require('./retraso');
+var { signAccessToken } = require('../test/helpers/test-jwt');
 
 async function verResultado(page) {
   await page.waitForTimeout(RETRASO_MS);
@@ -10,9 +11,26 @@ async function enviar(page, mensaje) {
   await page.locator('form button').click();
 }
 
-test.beforeEach(async function ({ page }) {
+async function entrarAutenticado(page) {
+  var token = await signAccessToken({
+    sub: 'auth0|ana-e2e',
+    name: 'Ana',
+    email: 'ana@example.com'
+  });
+  await page.addInitScript(function (payload) {
+    window.__E2E_ACCESS_TOKEN__ = payload.token;
+    window.__E2E_USER__ = payload.user;
+  }, {
+    token: token,
+    user: { name: 'Ana', email: 'ana@example.com', sub: 'auth0|ana-e2e', picture: '' }
+  });
   await page.goto('/');
-  await page.locator('#nombre').fill('Ana');
+  await expect(page.locator('#chat-panel')).toBeVisible({ timeout: 20000 });
+  await expect(page.locator('#user-name')).toContainText('Ana');
+}
+
+test.beforeEach(async function ({ page }) {
+  await entrarAutenticado(page);
 });
 
 test('muestra un texto tal como se escribio', async function ({ page }) {
@@ -71,5 +89,11 @@ test('no ejecuta un script escrito en el mensaje', async function ({ page }) {
   var linea = page.locator('#messages li').last();
   await expect(page.locator('#messages script')).toHaveCount(0);
   await expect(linea).toContainText('<script>alert("xss")</script>');
+  await verResultado(page);
+});
+
+test('muestra identidad y permite cerrar el panel de chat al desconectar socket en logout UI', async function ({ page }) {
+  await expect(page.locator('#user-name')).toContainText('Ana');
+  await expect(page.locator('#btn-logout')).toBeVisible();
   await verResultado(page);
 });

@@ -1,0 +1,22 @@
+Evidencia de diagnóstico (Playwright + servidor local real, 2026-10-28)
+
+Al pulsar «Iniciar sesión», el SDK redirige a Auth0 /authorize con:
+- client_id: (SPA Proyecto)
+- redirect_uri: http://localhost:3000
+- audience: https://una-chat-api
+- prompt: login
+- PKCE: code_challenge presente
+
+Auth0 responde Location de vuelta a la app:
+  http://localhost:3000/?error=access_denied&error_description=Service%20not%20found%3A%20https%3A%2F%2Funa-chat-api&...
+
+Causa: no existe (o no está disponible) una API en el tenant con Identifier exactamente
+https://una-chat-api.
+
+Acción requerida (cuenta Auth0 del estudiante):
+1. Applications → APIs → Create API
+2. Name: UNA Chat API
+3. Identifier: https://una-chat-api
+4. Signing Algorithm: RS256
+5. Autorizar esa API para la Application SPA «Proyecto»
+6. Guardar, Ctrl+F5 en http://localhost:3000 e Iniciar sesión de nuevo
